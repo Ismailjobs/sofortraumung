@@ -12,6 +12,9 @@ export const metadata: Metadata = {
     "Ratgeber zu Entrümpelung, Wohnungsauflösung, Verlassenschaft und besenreiner Übergabe in Wien. Praktische Tipps von SofortRäumung.",
   alternates: {
     canonical: `${SITE.domain}/ratgeber`,
+    types: {
+      "application/rss+xml": `${SITE.domain}/feed.xml`,
+    },
   },
   openGraph: {
     title: "Ratgeber Wien – Räumung & Entrümpelung | SofortRäumung",
@@ -96,6 +99,9 @@ export default function RatgeberIndexPage() {
                       {article.title}
                     </Link>
                   </h2>
+                  <p className="mt-2 text-xs font-medium text-white/50">
+                    {article.subtitle}
+                  </p>
                   <p className="mt-3 flex-1 text-sm leading-relaxed text-white/65">
                     {article.excerpt}
                   </p>

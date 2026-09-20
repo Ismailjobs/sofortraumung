@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Check, Lightbulb } from "lucide-react";
+import LinkifiedText from "@/components/LinkifiedText";
 import type { RatgeberBlock } from "@/types/ratgeber";
 
 interface ArticleBlocksProps {
@@ -23,7 +24,7 @@ export default function ArticleBlocks({ blocks }: ArticleBlocksProps) {
                       key={p.slice(0, 48)}
                       className="text-base leading-relaxed text-white/78"
                     >
-                      {p}
+                      <LinkifiedText text={p} />
                     </p>
                   ))}
                 </div>

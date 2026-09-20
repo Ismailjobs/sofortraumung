@@ -64,10 +64,10 @@ export const SERVICES: Record<ServiceSlug, ServicePageConfig> = {
   "raeumung-wien": {
     slug: "raeumung-wien",
     title: "Räumung Wien",
-    h1: "Räumung Wien – günstig, diskret & besenrein",
-    metaTitle: "Räumung Wien günstig & professionell | SofortRäumung",
+    h1: "Räumung Wien ab €150 – Festpreis, diskret & besenrein",
+    metaTitle: "Räumung Wien ab €150 – Festpreis | SofortRäumung",
     metaDescription:
-      "Räumung Wien zum Festpreis: Demontage, Abtransport, MA-48-konforme Entsorgung und besenreine Übergabe in Wien & Umgebung. Jetzt kostenlos besichtigen lassen.",
+      "Räumung Wien ab €150: Festpreis nach Besichtigung, Demontage, MA-48-Entsorgung und besenreine Übergabe in allen Bezirken. Jetzt kostenlos anfragen.",
     shortDescription:
       "Komplettservice für Räumungen in Wien: Demontage, Container, Abtransport und Übergabeprotokoll.",
     serviceType: "Räumung Wien",

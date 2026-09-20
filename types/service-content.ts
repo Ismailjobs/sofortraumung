@@ -21,14 +21,21 @@ export interface ServiceCaseStudy {
   text: string;
 }
 
+export interface ServiceInternalLink {
+  href: string;
+  label: string;
+}
+
 export type ServiceContentBlock =
   | { type: "section"; heading: string; paragraphs: string[] }
   | { type: "pricing"; data: ServicePricingTable }
   | { type: "steps"; title: string; steps: string[] }
   | { type: "caseStudy"; data: ServiceCaseStudy }
-  | { type: "hint"; title: string; text: string };
+  | { type: "hint"; title: string; text: string }
+  | { type: "links"; title: string; links: ServiceInternalLink[] };
 
 export interface ServiceExtendedContent {
   blocks: ServiceContentBlock[];
   faq: ServiceFaqItem[];
+  relatedRatgeberSlugs: string[];
 }

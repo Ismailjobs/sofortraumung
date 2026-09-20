@@ -4,6 +4,32 @@ import type { ServiceExtendedContent } from "@/types/service-content";
 const DEFAULT_DISCLAIMER =
   "Richtwerte ab — verbindlicher Festpreis nach kostenloser Besichtigung in Wien. Keine versteckten Nachschläge bei gleichbleibendem Umfang.";
 
+const RATGEBER_BY_SERVICE: Partial<Record<ServiceSlug, string[]>> = {
+  "raeumung-wien": ["entruempelung-kosten-wien", "checkliste-wohnungsaufloesung-wien"],
+  "entruempelung-wien": ["entruempelung-kosten-wien", "entruempelung-neubau-1070"],
+  "wohnungsaufloesung-wien": ["checkliste-wohnungsaufloesung-wien", "besenreine-uebergabe-wiener-wohnen"],
+  "haushaltsaufloesung-wien": ["checkliste-wohnungsaufloesung-wien", "entruempelung-kosten-wien"],
+  "verlassenschaften-nachlassraeumung": ["verlassenschaft-raeumen-wien", "besenreine-uebergabe-wiener-wohnen"],
+  "messie-entruempelung-wien": ["gemeindebau-vollgestellte-wohnung-entruempeln-wien", "entruempelung-kosten-wien"],
+  "kellerraeumung-wien": ["checkliste-wohnungsaufloesung-wien", "entruempelung-kosten-wien"],
+};
+
+function defaultInternalLinks(slug: ServiceSlug, label: string) {
+  return {
+    type: "links" as const,
+    title: "Weitere Informationen & Leistungen",
+    links: [
+      { href: "/raeumung-wien", label: "Räumung Wien ab €150" },
+      { href: "/entruempelung-wien", label: "Entrümpelung Wien" },
+      { href: "/ratgeber/entruempelung-kosten-wien", label: "Was kostet Entrümpelung?" },
+      ...(slug !== "wohnungsaufloesung-wien"
+        ? [{ href: "/wohnungsaufloesung-wien", label: "Wohnungsauflösung Wien" }]
+        : [{ href: "/haushaltsaufloesung-wien", label: "Haushaltsauflösung Wien" }]),
+      { href: "/ratgeber", label: `Ratgeber: ${label}` },
+    ],
+  };
+}
+
 const EXTENDED: Partial<Record<ServiceSlug, ServiceExtendedContent>> = {
   "raeumung-wien": {
     blocks: [
@@ -52,9 +78,11 @@ const EXTENDED: Partial<Record<ServiceSlug, ServiceExtendedContent>> = {
       {
         type: "hint",
         title: "Warum Festpreis statt Stundenlohn?",
-        text: "Stundenlohn belohnt langsame Abläufe — Sie zahlen für Unsicherheit. Unser Festpreis nach Besichtigung bindet Umfang, Endzustand und Leistungen schriftlich. Das schützt Ihr Budget und unsere Planung.",
+        text: "Stundenlohn belohnt langsame Abläufe — Sie zahlen für Unsicherheit. Unser Festpreis nach Besichtigung bindet Umfang, Endzustand und Leistungen schriftlich. Mehr dazu im Ratgeber [Was kostet eine Entrümpelung in Wien?](/ratgeber/entruempelung-kosten-wien).",
       },
+      defaultInternalLinks("raeumung-wien", "Räumung"),
     ],
+    relatedRatgeberSlugs: ["entruempelung-kosten-wien", "checkliste-wohnungsaufloesung-wien"],
     faq: [
       {
         question: "Was kostet eine Räumung in Wien?",
@@ -80,8 +108,8 @@ const EXTENDED: Partial<Record<ServiceSlug, ServiceExtendedContent>> = {
         type: "section",
         heading: "Entrümpelung Wien — diskret & zum Festpreis",
         paragraphs: [
-          "Entrümpelung in Wien bedeutet mehr als Kartons wegräumen: Sortieren, Demontieren, Schutz von Treppenhaus und Lift, fachgerechte Trennung für die MA 48 — und auf Wunsch besenreine Übergabe an Vermieter oder Wiener Wohnen.",
-          "Vom vollgestellten Keller in Donaustadt bis zur Wohnungsauflösung im Altbau ohne Lift in Neubau: Wir planen Teamgröße, Ladephasen und Halteverbote (MA 46) vor dem Einsatztag — nicht improvisiert am Gehsteig.",
+          "Entrümpelung in Wien bedeutet mehr als Kartons wegräumen: Sortieren, Demontieren, Schutz von Treppenhaus und Lift, fachgerechte Trennung für die MA 48 — und auf Wunsch [besenreine Übergabe](/ratgeber/besenreine-uebergabe-wiener-wohnen) an Vermieter oder Wiener Wohnen.",
+          "Vom vollgestellten Keller in Donaustadt bis zur [Wohnungsauflösung](/wohnungsaufloesung-wien) im Altbau ohne Lift in [Neubau (1070)](/ratgeber/entruempelung-neubau-1070): Wir planen Teamgröße, Ladephasen und Halteverbote (MA 46) vor dem Einsatztag.",
         ],
       },
       {

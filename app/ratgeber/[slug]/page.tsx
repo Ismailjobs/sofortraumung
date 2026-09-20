@@ -5,9 +5,11 @@ import { ArrowLeft, ArrowRight, Calendar, Clock } from "lucide-react";
 import { SITE } from "@/config/site";
 import {
   getAllRatgeberSlugs,
+  getArticleNavigation,
   getRatgeberBySlug,
-  getRelatedArticles,
 } from "@/config/ratgeber";
+import ArticlePrevNext from "@/components/ratgeber/ArticlePrevNext";
+import LinkifiedText from "@/components/LinkifiedText";
 import { getServiceBySlug, type ServiceSlug } from "@/config/services";
 import ArticleBlocks from "@/components/ratgeber/ArticleBlocks";
 import ArticleFaq from "@/components/ratgeber/ArticleFaq";
@@ -69,7 +71,7 @@ export default async function RatgeberArticlePage({
 
   const canonical = `${SITE.domain}/ratgeber/${article.slug}`;
   const schema = buildRatgeberArticleSchema(article, canonical);
-  const relatedArticles = getRelatedArticles(slug, 3);
+  const navigation = getArticleNavigation(slug);
 
   return (
     <>
@@ -138,7 +140,7 @@ export default async function RatgeberArticlePage({
                     key={paragraph.slice(0, 48)}
                     className="text-base leading-relaxed text-white/78"
                   >
-                    {paragraph}
+                    <LinkifiedText text={paragraph} />
                   </p>
                 ))}
               </div>
@@ -167,56 +169,26 @@ export default async function RatgeberArticlePage({
                   </ul>
                 </aside>
               ) : null}
+
+              <div className="border-t border-white/10 pt-10">
+                <h2 className="mb-5 text-lg font-extrabold uppercase tracking-tight text-white">
+                  Weiterlesen im Ratgeber
+                </h2>
+                <ArticlePrevNext
+                  previous={navigation.previous}
+                  next={navigation.next}
+                />
+                <Link
+                  href="/ratgeber"
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white/70 transition hover:text-lime"
+                >
+                  <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+                  Alle Ratgeber
+                </Link>
+              </div>
             </div>
           </div>
         </article>
-
-        <section className="border-t border-white/10 bg-navy-light py-12">
-          <div className="site-container">
-            <div className="mx-auto max-w-3xl">
-              <h2 className="text-xl font-extrabold uppercase tracking-tight text-white">
-                Weitere Ratgeber-Artikel
-              </h2>
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                {relatedArticles.map((related) => (
-                  <article
-                    key={related.slug}
-                    className="rounded-xl border border-white/15 bg-navy p-5 transition hover:border-lime/40"
-                  >
-                    <p className="text-xs font-semibold uppercase tracking-tight text-lime">
-                      {related.category}
-                    </p>
-                    <h3 className="mt-2 text-sm font-extrabold uppercase tracking-tight text-white">
-                      <Link
-                        href={`/ratgeber/${related.slug}`}
-                        className="hover:text-lime"
-                      >
-                        {related.title}
-                      </Link>
-                    </h3>
-                    <p className="mt-2 line-clamp-2 text-xs text-white/60">
-                      {related.excerpt}
-                    </p>
-                    <Link
-                      href={`/ratgeber/${related.slug}`}
-                      className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-lime"
-                    >
-                      Artikel lesen
-                      <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-                    </Link>
-                  </article>
-                ))}
-              </div>
-              <Link
-                href="/ratgeber"
-                className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-white/70 transition hover:text-lime"
-              >
-                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-                Alle Ratgeber
-              </Link>
-            </div>
-          </div>
-        </section>
       </main>
     </>
   );

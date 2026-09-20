@@ -40,3 +40,32 @@ export function getRelatedArticles(slug: string, limit = 3): RatgeberArticle[] {
   );
   return [...related, ...rest].slice(0, limit);
 }
+
+/** Prev/next navigation: thematic links when defined, else sequential order. */
+export function getArticleNavigation(slug: string): {
+  previous: RatgeberArticle | null;
+  next: RatgeberArticle | null;
+} {
+  const index = RATGEBER_ARTICLES.findIndex((a) => a.slug === slug);
+  const current = RATGEBER_ARTICLES[index];
+  if (!current || index === -1) {
+    return { previous: null, next: null };
+  }
+
+  const sequentialPrev = index > 0 ? RATGEBER_ARTICLES[index - 1] : null;
+  const sequentialNext =
+    index < RATGEBER_ARTICLES.length - 1
+      ? RATGEBER_ARTICLES[index + 1]
+      : null;
+
+  const thematicNext =
+    getRatgeberBySlug(current.relatedArticleSlugs[0] ?? "") ?? null;
+
+  const thematicPrev =
+    RATGEBER_ARTICLES.find((a) => a.relatedArticleSlugs[0] === slug) ?? null;
+
+  return {
+    previous: thematicPrev ?? sequentialPrev,
+    next: thematicNext ?? sequentialNext,
+  };
+}

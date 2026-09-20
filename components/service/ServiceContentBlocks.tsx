@@ -1,3 +1,6 @@
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import LinkifiedText from "@/components/LinkifiedText";
 import type { ServiceContentBlock } from "@/types/service-content";
 
 interface ServiceContentBlocksProps {
@@ -21,7 +24,7 @@ export default function ServiceContentBlocks({ blocks }: ServiceContentBlocksPro
                       key={p.slice(0, 48)}
                       className="text-base leading-relaxed text-white/80"
                     >
-                      {p}
+                      <LinkifiedText text={p} />
                     </p>
                   ))}
                 </div>
@@ -123,8 +126,32 @@ export default function ServiceContentBlocks({ blocks }: ServiceContentBlocksPro
                 <h2 className="text-sm font-extrabold uppercase tracking-tight text-lime">
                   {block.title}
                 </h2>
-                <p className="mt-2 text-sm leading-relaxed text-white/70">{block.text}</p>
+                <p className="mt-2 text-sm leading-relaxed text-white/70">
+                  <LinkifiedText text={block.text} />
+                </p>
               </aside>
+            );
+
+          case "links":
+            return (
+              <section key={`svc-links-${index}`}>
+                <h2 className="text-lg font-extrabold uppercase tracking-tight text-white">
+                  {block.title}
+                </h2>
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {block.links.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        href={link.href}
+                        className="inline-flex items-center gap-1 rounded-md border border-white/15 bg-navy-light px-3 py-2 text-sm font-semibold text-lime transition hover:border-lime/50"
+                      >
+                        {link.label}
+                        <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
             );
 
           default:
