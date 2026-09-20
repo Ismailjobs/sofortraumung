@@ -4,6 +4,13 @@ import { FormEvent, useState } from "react";
 import { Check, Send } from "lucide-react";
 import LocalImage from "@/components/LocalImage";
 import { BENEFITS, REGION_FEATURES, SERVICE_OPTIONS } from "@/lib/data";
+import {
+  INPUT_LIMITS,
+  isHoneypotTriggered,
+  isValidEmail,
+  isValidPhone,
+  stripUnsafeInput,
+} from "@/lib/security";
 import type { ContactFormData, ServiceOptionValue } from "@/types";
 
 const INITIAL_FORM: ContactFormData = {
@@ -18,6 +25,8 @@ export default function ContactSection() {
   const [formData, setFormData] = useState<ContactFormData>(INITIAL_FORM);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [formError, setFormError] = useState<string>("");
+  const [honeypot, setHoneypot] = useState<string>("");
 
   const handleChange = (
     field: keyof ContactFormData,
@@ -33,6 +42,36 @@ export default function ContactSection() {
     event: FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
+    setFormError("");
+
+    if (isHoneypotTriggered(honeypot)) {
+      setIsSubmitted(true);
+      return;
+    }
+
+    const sanitized: ContactFormData = {
+      name: stripUnsafeInput(formData.name, INPUT_LIMITS.name),
+      phone: stripUnsafeInput(formData.phone, INPUT_LIMITS.phone),
+      email: stripUnsafeInput(formData.email, INPUT_LIMITS.email),
+      service: formData.service,
+      message: stripUnsafeInput(formData.message, INPUT_LIMITS.message),
+    };
+
+    if (!sanitized.name || !sanitized.phone || !sanitized.email) {
+      setFormError("Bitte füllen Sie alle Pflichtfelder aus.");
+      return;
+    }
+
+    if (!isValidEmail(sanitized.email)) {
+      setFormError("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+      return;
+    }
+
+    if (!isValidPhone(sanitized.phone)) {
+      setFormError("Bitte geben Sie eine gültige Telefonnummer ein.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     await new Promise<void>((resolve) => {
@@ -42,6 +81,7 @@ export default function ContactSection() {
     setIsSubmitting(false);
     setIsSubmitted(true);
     setFormData(INITIAL_FORM);
+    setHoneypot("");
   };
 
   return (
@@ -127,6 +167,25 @@ export default function ContactSection() {
             </div>
           ) : (
             <form className="mt-5 space-y-3" onSubmit={handleSubmit} noValidate>
+              <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+                <label htmlFor="website">Website</label>
+                <input
+                  id="website"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                />
+              </div>
+
+              {formError ? (
+                <p className="rounded-md border border-red-400/40 bg-red-500/10 px-3 py-2 text-sm text-red-200">
+                  {formError}
+                </p>
+              ) : null}
+
               <div>
                 <label htmlFor="name" className="sr-only">
                   Ihr Name
@@ -136,6 +195,8 @@ export default function ContactSection() {
                   name="name"
                   type="text"
                   required
+                  maxLength={INPUT_LIMITS.name}
+                  autoComplete="name"
                   placeholder="Ihr Name*"
                   value={formData.name}
                   onChange={(e) => handleChange("name", e.target.value)}
@@ -153,6 +214,8 @@ export default function ContactSection() {
                     name="phone"
                     type="tel"
                     required
+                    maxLength={INPUT_LIMITS.phone}
+                    autoComplete="tel"
                     placeholder="Telefon*"
                     value={formData.phone}
                     onChange={(e) => handleChange("phone", e.target.value)}
@@ -168,6 +231,8 @@ export default function ContactSection() {
                     name="email"
                     type="email"
                     required
+                    maxLength={INPUT_LIMITS.email}
+                    autoComplete="email"
                     placeholder="E-Mail*"
                     value={formData.email}
                     onChange={(e) => handleChange("email", e.target.value)}
@@ -204,6 +269,7 @@ export default function ContactSection() {
                   id="message"
                   name="message"
                   rows={4}
+                  maxLength={INPUT_LIMITS.message}
                   placeholder="Ihre Nachricht (optional)"
                   value={formData.message}
                   onChange={(e) => handleChange("message", e.target.value)}

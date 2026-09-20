@@ -27,7 +27,7 @@ export const gemeindebauVollgestellteWohnung: RatgeberArticle = {
   ],
   intro: [
     "Manchmal ist die Gemeindewohnung so voll, dass der Gang zur Küche zum Hindernisparcours wird — und trotzdem steht der Übergabetermin bei Wiener Wohnen. Angehörige oder Bevollmächtigte brauchen dann keinen Stempel und keine Diagnose, sondern einen diskreten Plan: sortieren, schützen, tragen, entsorgen — ohne Vorurteile und ohne Chaos im Stiegenhaus.",
-    "Dieser Leitfaden erklärt, wie Sie eine vollgestellte Gemeindewohnung entrümpeln lassen — mit Fokus auf Gemeindebau-Alltag, Diskretion und Wiener-Wohnen-Rückgabe. Wir arbeiten in allen Wiener Gemeindebauten von Simmering bis Floridsdorf und planen Sortierzeit, Hygiene und Logistik von Anfang an in den Festpreis ein.",
+    "Dieser Leitfaden erklärt, wie Sie eine vollgestellte Gemeindewohnung entrümpeln lassen — mit Fokus auf Gemeindebau-Alltag, Diskretion und [Wiener-Wohnen-Rückgabe](/ratgeber/besenreine-uebergabe-wiener-wohnen). Leistungen: [Wohnungsauflösung](/wohnungsaufloesung-wien), [Haushaltsauflösung](/haushaltsaufloesung-wien) und [Messie-Entrümpelung](/messie-entruempelung-wien). Kosten: [Was kostet Entrümpelung?](/ratgeber/entruempelung-kosten-wien).",
   ],
   blocks: [
     {

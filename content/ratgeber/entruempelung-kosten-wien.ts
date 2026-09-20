@@ -22,8 +22,8 @@ export const entruempelungKostenWien: RatgeberArticle = {
     "gemeindebau-vollgestellte-wohnung-entruempeln-wien",
   ],
   intro: [
-    "Wer in Wien eine Entrümpelung plant, stößt schnell auf sehr unterschiedliche Preisangaben — von pauschalen Online-Rechnern bis zu vagen „ab“-Werten ohne Objektbezug. Seriöse Kalkulation funktioniert anders: Erst Volumen, Zugang und Endzustand klären, dann einen verbindlichen Festpreis nach Besichtigung erhalten.",
-    "Als Räumungsservice mit Sitz in Liesing (1230) planen wir täglich Einsätze in allen Wiener Bezirken — vom Gemeindebau in Favoriten bis zum Altbau ohne Lift in Neubau. Dieser Ratgeber erklärt, welche Faktoren den Preis wirklich bestimmen und wie Sie mit Wertanrechnung und klarer Planung Kosten vermeiden.",
+    "Wer in Wien eine Entrümpelung plant, stößt schnell auf sehr unterschiedliche Preisangaben — von pauschalen Online-Rechnern bis zu vagen „ab“-Werten ohne Objektbezug. Seriöse Kalkulation funktioniert anders: Erst Volumen, Zugang und Endzustand klären, dann einen [verbindlichen Festpreis](/raeumung-wien) nach Besichtigung erhalten.",
+    "Als Räumungsservice mit Sitz in Liesing (1230) planen wir täglich Einsätze in allen Wiener Bezirken — vom [Gemeindebau in Favoriten](/ratgeber/gemeindebau-vollgestellte-wohnung-entruempeln-wien) bis zum Altbau in [Neubau (1070)](/ratgeber/entruempelung-neubau-1070). Ergänzend: [Checkliste Wohnungsauflösung](/ratgeber/checkliste-wohnungsaufloesung-wien) und [besenreine Übergabe](/ratgeber/besenreine-uebergabe-wiener-wohnen).",
   ],
   blocks: [
     {

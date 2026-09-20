@@ -15,6 +15,7 @@ import JsonLd from "@/components/JsonLd";
 import RelatedServices from "@/components/service/RelatedServices";
 import ServiceContentBlocks from "@/components/service/ServiceContentBlocks";
 import ServiceFaq from "@/components/service/ServiceFaq";
+import ServiceRatgeberLinks from "@/components/service/ServiceRatgeberLinks";
 import WertanrechnungCta from "@/components/service/WertanrechnungCta";
 import {
   RichText,
@@ -167,6 +168,7 @@ export default async function ServiceSlugPage({ params }: ServicePageProps) {
               ) : null}
 
               <ServiceContentBlocks blocks={extended.blocks} />
+              <ServiceRatgeberLinks slugs={extended.relatedRatgeberSlugs} />
               <ServiceFaq items={extended.faq} />
             </article>
 

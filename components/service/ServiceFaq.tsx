@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import LinkifiedText from "@/components/LinkifiedText";
 import type { ServiceFaqItem } from "@/types/service-content";
 
 interface ServiceFaqProps {
@@ -47,7 +48,7 @@ export default function ServiceFaq({
               {isOpen ? (
                 <div className="border-t border-white/10 px-4 pb-4 pt-3">
                   <p className="text-sm leading-relaxed text-white/72">
-                    {item.answer}
+                    <LinkifiedText text={item.answer} />
                   </p>
                 </div>
               ) : null}

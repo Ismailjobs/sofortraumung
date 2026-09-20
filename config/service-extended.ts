@@ -134,7 +134,9 @@ const EXTENDED: Partial<Record<ServiceSlug, ServiceExtendedContent>> = {
           text: "Vollgestellter Kellerraum in Gründerzeithaus: Zwei Personen, ein Tag, Trennung Holz/Metall/Elektro, Festpreis nach Besichtigung €420. Kein Lift — Trageweg über Innenhof geplant.",
         },
       },
+      defaultInternalLinks("entruempelung-wien", "Entrümpelung"),
     ],
+    relatedRatgeberSlugs: ["entruempelung-kosten-wien", "entruempelung-neubau-1070"],
     faq: [
       {
         question: "Was ist der Unterschied zwischen Räumung und Entrümpelung?",
@@ -156,8 +158,8 @@ const EXTENDED: Partial<Record<ServiceSlug, ServiceExtendedContent>> = {
         type: "section",
         heading: "Wohnungsauflösung Wien — komplett & übergabefähig",
         paragraphs: [
-          "Kündigung, Umzug ins Ausland oder Eigentümerwechsel: Eine Wohnungsauflösung in Wien erfordert Planung — Keller, Dachboden, besenreine Übergabe und oft enge Fristen bei der Hausverwaltung.",
-          "Wir übernehmen Demontage, Abtransport, MA-48-Entsorgung und auf Wunsch besenreine Übergabe mit Protokoll. Festpreis nach kostenloser Besichtigung — in allen Bezirken.",
+          "Kündigung, Umzug ins Ausland oder Eigentümerwechsel: Eine Wohnungsauflösung in Wien erfordert Planung — Keller, Dachboden, [besenreine Übergabe](/ratgeber/besenreine-uebergabe-wiener-wohnen) und oft enge Fristen bei der Hausverwaltung.",
+          "Unsere [Checkliste Wohnungsauflösung](/ratgeber/checkliste-wohnungsaufloesung-wien) hilft bei der Planung. Festpreis nach kostenloser Besichtigung — in allen Bezirken.",
         ],
       },
       {
@@ -184,7 +186,9 @@ const EXTENDED: Partial<Record<ServiceSlug, ServiceExtendedContent>> = {
           "Protokoll und Fotos auf Wunsch",
         ],
       },
+      defaultInternalLinks("wohnungsaufloesung-wien", "Wohnungsauflösung"),
     ],
+    relatedRatgeberSlugs: ["checkliste-wohnungsaufloesung-wien", "besenreine-uebergabe-wiener-wohnen"],
     faq: [
       {
         question: "Muss die Wohnung besenrein übergeben werden?",
@@ -202,8 +206,8 @@ const EXTENDED: Partial<Record<ServiceSlug, ServiceExtendedContent>> = {
         type: "section",
         heading: "Verlassenschaft & Nachlass — einfühlsam in Wien",
         paragraphs: [
-          "Nachlassräumungen erfordern Diskretion, Geduld und klare Abstimmung mit Angehörigen. Wir arbeiten ohne unnötige Aufmerksamkeit, sichern Dokumente und Wertgegenstände und bieten faire Wertanrechnung.",
-          "Besichtigung vor Ort oder per Video — Festpreis schriftlich, Übergabeprotokoll auf Wunsch.",
+          "Nachlassräumungen erfordern Diskretion, Geduld und klare Abstimmung mit Angehörigen. Mehr im Ratgeber [Verlassenschaft räumen in Wien](/ratgeber/verlassenschaft-raeumen-wien).",
+          "Besichtigung vor Ort oder per Video — Festpreis schriftlich, [besenreine Übergabe](/ratgeber/besenreine-uebergabe-wiener-wohnen) mit Protokoll auf Wunsch.",
         ],
       },
       {
@@ -226,7 +230,9 @@ const EXTENDED: Partial<Record<ServiceSlug, ServiceExtendedContent>> = {
           text: "Video-Besichtigung, Wertanrechnung für Antiquitäten, diskrete Räumung an einem Tag, besenreine Übergabe an Verwaltung. Festpreis mit €400 Wertanrechnung.",
         },
       },
+      defaultInternalLinks("verlassenschaften-nachlassraeumung", "Verlassenschaft"),
     ],
+    relatedRatgeberSlugs: ["verlassenschaft-raeumen-wien", "besenreine-uebergabe-wiener-wohnen"],
     faq: [
       {
         question: "Wie diskret arbeiten Sie?",
@@ -244,7 +250,7 @@ const EXTENDED: Partial<Record<ServiceSlug, ServiceExtendedContent>> = {
         type: "section",
         heading: "Messie-Entrümpelung Wien — ohne Vorurteile",
         paragraphs: [
-          "Stark überfüllte Wohnungen brauchen Sortierzeit, Hygieneplan und oft persönliche Schutzausrüstung. Wir arbeiten sachlich, diskret und ohne Stigma — Fokus auf sicheren Ablauf und übergabefähigen Endzustand.",
+          "Stark überfüllte Wohnungen brauchen Sortierzeit, Hygieneplan und oft persönliche Schutzausrüstung. Siehe auch [Gemeindewohnung entrümpeln](/ratgeber/gemeindebau-vollgestellte-wohnung-entruempeln-wien).",
           "Sortierung, Dokumentensicherung und schrittweises Freiräumen gehören in den Festpreis — nicht als Überraschung am zweiten Tag.",
         ],
       },
@@ -260,7 +266,9 @@ const EXTENDED: Partial<Record<ServiceSlug, ServiceExtendedContent>> = {
           ],
         },
       },
+      defaultInternalLinks("messie-entruempelung-wien", "Messie-Entrümpelung"),
     ],
+    relatedRatgeberSlugs: ["gemeindebau-vollgestellte-wohnung-entruempeln-wien", "entruempelung-kosten-wien"],
     faq: [
       {
         question: "Arbeiten Sie diskret?",
@@ -278,7 +286,7 @@ const EXTENDED: Partial<Record<ServiceSlug, ServiceExtendedContent>> = {
         type: "section",
         heading: "Kellerräumung Wien — schnell & fachgerecht",
         paragraphs: [
-          "Kellerabteile in Wien sind oft jahrzehntelang befüllt — Möbel, Farbeimer, alte Reifen, Elektrogeräte. Wir sortieren, trennen für die MA 48 und räumen in einem Termin — auch als Ergänzung zur Wohnungsauflösung.",
+          "Kellerabteile in Wien sind oft jahrzehntelang befüllt — Möbel, Farbeimer, alte Reifen, Elektrogeräte. Ideal kombiniert mit [Wohnungsauflösung](/wohnungsaufloesung-wien) oder [Haushaltsauflösung](/haushaltsaufloesung-wien) im selben Festpreis.",
         ],
       },
       {
@@ -293,7 +301,9 @@ const EXTENDED: Partial<Record<ServiceSlug, ServiceExtendedContent>> = {
           ],
         },
       },
+      defaultInternalLinks("kellerraeumung-wien", "Kellerräumung"),
     ],
+    relatedRatgeberSlugs: ["checkliste-wohnungsaufloesung-wien", "entruempelung-kosten-wien"],
     faq: [
       {
         question: "Räumen Sie nur den Keller?",
@@ -310,8 +320,8 @@ function buildDefaultExtended(slug: ServiceSlug, label: string): ServiceExtended
         type: "section",
         heading: `${label} in Wien — Festpreis nach Besichtigung`,
         paragraphs: [
-          `${label} in Wien und Niederösterreich: kostenlose Besichtigung, schriftlicher Festpreis, Demontage, Abtransport und fachgerechte Entsorgung über die MA 48. Auf Wunsch besenreine Übergabe mit Protokoll.`,
-          `Vom Firmensitz in Liesing (1230) sind wir in allen Wiener Bezirken schnell vor Ort — auch kurzfristig bei Übergabefristen.`,
+          `${label} in Wien und Niederösterreich: kostenlose Besichtigung, schriftlicher Festpreis, Demontage, Abtransport und fachgerechte Entsorgung über die MA 48. Auf Wunsch [besenreine Übergabe](/ratgeber/besenreine-uebergabe-wiener-wohnen) mit Protokoll.`,
+          `Mehr zu Kosten und Ablauf: [Was kostet eine Entrümpelung in Wien?](/ratgeber/entruempelung-kosten-wien) und [Räumung Wien ab €150](/raeumung-wien).`,
         ],
       },
       {
@@ -337,6 +347,11 @@ function buildDefaultExtended(slug: ServiceSlug, label: string): ServiceExtended
           "Optional besenreine Übergabe",
         ],
       },
+      defaultInternalLinks(slug, label),
+    ],
+    relatedRatgeberSlugs: RATGEBER_BY_SERVICE[slug] ?? [
+      "entruempelung-kosten-wien",
+      "checkliste-wohnungsaufloesung-wien",
     ],
     faq: [
       {

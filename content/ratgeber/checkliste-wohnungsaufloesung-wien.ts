@@ -23,7 +23,7 @@ export const checklisteWohnungsaufloesungWien: RatgeberArticle = {
   ],
   intro: [
     "Eine Wohnungsauflösung in Wien hat mehr Moving Parts als viele denken: Kündigungsfrist, Übergabetermin, Kellerabteil, Zählerstände, Nachbarn und die Frage, wer was entsorgt. Wer ohne Plan startet, verliert Zeit — und riskiert Nachforderungen der Hausverwaltung oder von Wiener Wohnen.",
-    "Diese Checkliste führt Sie Schritt für Schritt durch den Prozess — für Miet- und Eigentumswohnungen in allen Wiener Bezirken. Ob Altbau in Währing oder Gemeindebau in Donaustadt: Die Reihenfolge bleibt ähnlich, die Logistik unterscheidet sich.",
+    "Diese Checkliste führt Sie Schritt für Schritt durch den Prozess — für Miet- und Eigentumswohnungen in allen Wiener Bezirken. Vertiefung: [Kosten in Wien](/ratgeber/entruempelung-kosten-wien), [besenreine Übergabe](/ratgeber/besenreine-uebergabe-wiener-wohnen) und [Verlassenschaft räumen](/ratgeber/verlassenschaft-raeumen-wien).",
   ],
   blocks: [
     {

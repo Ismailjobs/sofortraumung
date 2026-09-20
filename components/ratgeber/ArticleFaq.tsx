@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import LinkifiedText from "@/components/LinkifiedText";
 import type { RatgeberFaqItem } from "@/types/ratgeber";
 
 interface ArticleFaqProps {
@@ -49,7 +50,7 @@ export default function ArticleFaq({ items }: ArticleFaqProps) {
               {isOpen ? (
                 <div className="border-t border-white/10 px-4 pb-4 pt-3">
                   <p className="text-sm leading-relaxed text-white/72">
-                    {item.answer}
+                    <LinkifiedText text={item.answer} />
                   </p>
                 </div>
               ) : null}
