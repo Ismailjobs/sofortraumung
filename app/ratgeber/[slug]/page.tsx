@@ -150,7 +150,7 @@ export default async function RatgeberArticlePage({
               <ArticleFaq items={article.faq} />
 
               {article.relatedServicePaths.length > 0 ? (
-                <aside className="rounded-xl border border-white/15 bg-navy-light p-6">
+                <aside>
                   <h2 className="text-base font-extrabold uppercase tracking-tight text-white">
                     Passende Leistungen in Wien
                   </h2>

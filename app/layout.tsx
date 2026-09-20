@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ContactSheetProvider from "@/components/ContactSheetProvider";
 import { SITE } from "@/config/site";
 import "./globals.css";
 
@@ -27,9 +28,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="de-AT">
       <body className="min-h-screen bg-navy text-white antialiased">
-        <Navbar />
-        {children}
-        <Footer />
+        <ContactSheetProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </ContactSheetProvider>
       </body>
     </html>
   );

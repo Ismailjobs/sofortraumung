@@ -13,7 +13,7 @@ export default function ArticleFaq({ items }: ArticleFaqProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="rounded-xl border border-white/15 bg-navy-light p-5 sm:p-6">
+    <section>
       <p className="text-xs font-semibold uppercase tracking-tight text-lime">
         Fragen & Antworten
       </p>
@@ -29,7 +29,7 @@ export default function ArticleFaq({ items }: ArticleFaqProps) {
           return (
             <div
               key={item.question}
-              className="overflow-hidden rounded-lg border border-white/10 bg-navy"
+              className="overflow-hidden border-b border-white/10"
             >
               <button
                 type="button"

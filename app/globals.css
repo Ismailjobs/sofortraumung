@@ -45,3 +45,88 @@ body {
     padding-inline: 2.5rem;
   }
 }
+
+/* Process section animations */
+.process-animate-hidden {
+  opacity: 0;
+  transform: translateY(1.25rem);
+}
+
+.process-section--visible .process-animate-in {
+  animation: process-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.process-section--visible .process-connector-arrow {
+  animation: process-arrow-bounce 2s ease-in-out infinite;
+}
+
+.process-section--visible .process-wow-badge {
+  animation: process-wow-float 4s ease-in-out infinite;
+}
+
+.process-section--visible .process-arrow {
+  animation: process-arrow-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes process-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes process-arrow-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+}
+
+@keyframes process-wow-float {
+  0%,
+  100% {
+    transform: rotate(12deg) translateY(0);
+  }
+  50% {
+    transform: rotate(12deg) translateY(-6px);
+  }
+}
+
+@keyframes process-arrow-pulse {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-animate-hidden {
+    opacity: 1;
+    transform: none;
+  }
+
+  .process-section--visible .process-animate-in,
+  .process-section--visible .process-connector-arrow,
+  .process-section--visible .process-wow-badge,
+  .process-section--visible .process-arrow {
+    animation: none;
+  }
+
+  .process-card {
+    transition: none;
+  }
+}

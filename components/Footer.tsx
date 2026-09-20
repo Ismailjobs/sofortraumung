@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Home, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import {
   FOOTER_CONTACT,
   FOOTER_INFO,
@@ -13,20 +14,26 @@ export default function Footer() {
       <div className="site-container py-14">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12">
           {/* Brand */}
-          <div className="lg:col-span-3">
-            <Link href="/" className="inline-flex items-center gap-2.5">
-              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-lime/15 text-lime">
-                <Home className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <span className="text-base font-extrabold tracking-tight text-white">
-                sofortraumung.at
-              </span>
+          <div className="flex flex-col items-center text-center sm:items-start sm:text-left lg:col-span-3">
+            <Link
+              href="/"
+              className="inline-flex items-center"
+              aria-label="SofortRäumung – Zur Startseite"
+            >
+              <Image
+                src="/images/navbar-logo.webp"
+                alt="SofortRäumung Wien Logo"
+                width={1674}
+                height={411}
+                className="h-11 w-auto object-contain sm:h-12"
+                sizes="(max-width: 640px) 220px, 260px"
+              />
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-white/65">
               Ihr Partner für schnelle, diskrete und professionelle Räumungen in
               Wien, Niederösterreich & Umgebung.
             </p>
-            <div className="mt-5 flex items-center gap-2.5">
+            <div className="mt-5 flex items-center justify-center gap-2.5 sm:justify-start">
               {SOCIAL_LINKS.map((social) => {
                 const Icon = social.icon;
                 return (
@@ -44,11 +51,11 @@ export default function Footer() {
           </div>
 
           {/* Leistungen */}
-          <div className="lg:col-span-2">
+          <div className="text-center sm:text-left lg:col-span-2">
             <h3 className="text-sm font-extrabold uppercase tracking-tight text-white">
               Leistungen
             </h3>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-4 space-y-2.5 sm:text-left">
               {FOOTER_SERVICES.map((link) => (
                 <li key={link.label}>
                   <Link
@@ -63,11 +70,11 @@ export default function Footer() {
           </div>
 
           {/* Informationen */}
-          <div className="lg:col-span-2">
+          <div className="text-center sm:text-left lg:col-span-2">
             <h3 className="text-sm font-extrabold uppercase tracking-tight text-white">
               Informationen
             </h3>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-4 space-y-2.5 sm:text-left">
               {FOOTER_INFO.map((link) => (
                 <li key={link.label}>
                   <Link
@@ -82,7 +89,7 @@ export default function Footer() {
           </div>
 
           {/* Kontakt */}
-          <div className="lg:col-span-3">
+          <div className="flex flex-col items-center text-center sm:items-start sm:text-left lg:col-span-3">
             <h3 className="text-sm font-extrabold uppercase tracking-tight text-white">
               Kontakt
             </h3>
@@ -90,7 +97,7 @@ export default function Footer() {
               {FOOTER_CONTACT.map((item) => {
                 const Icon = item.icon;
                 const content = (
-                  <span className="flex items-center gap-2.5 text-sm text-white/65 transition hover:text-lime">
+                  <span className="inline-flex items-center gap-2.5 text-sm text-white/65 transition hover:text-lime">
                     <Icon className="h-4 w-4 shrink-0 text-lime" aria-hidden="true" />
                     {item.label}
                   </span>
@@ -105,7 +112,7 @@ export default function Footer() {
           </div>
 
           {/* Satisfaction badge */}
-          <div className="flex items-start justify-start lg:col-span-2 lg:justify-end">
+          <div className="col-span-1 flex justify-center sm:col-span-2 sm:justify-start lg:col-span-2 lg:justify-end">
             <div className="flex w-full max-w-[180px] flex-col items-center rounded-xl border border-lime/40 bg-navy p-4 text-center">
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-lime/20 text-lime">
                 <Star className="h-5 w-5 fill-current" aria-hidden="true" />
