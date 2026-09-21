@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import LocalImage from "@/components/LocalImage";
+import { getServiceCoverImageByHref } from "@/config/service-images";
+import ServiceCoverImage from "@/components/service/ServiceCoverImage";
 import { SERVICES } from "@/lib/data";
 
 export default function ServicesSection() {
@@ -14,20 +15,19 @@ export default function ServicesSection() {
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
           {SERVICES.map((service) => {
             const Icon = service.icon;
+            const cover =
+              getServiceCoverImageByHref(service.href) ?? {
+                src: service.imageSrc,
+                alt: service.imageAlt,
+              };
+
             return (
               <article
                 key={service.id}
                 className="group flex flex-col overflow-hidden rounded-xl bg-white shadow-lg"
               >
-                <div className="relative aspect-[4/3] bg-slate-200">
-                  <LocalImage
-                    src={service.imageSrc}
-                    alt={service.imageAlt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
-                    fallbackClassName="bg-slate-200"
-                  />
+                <div className="relative aspect-[4/3] overflow-hidden bg-slate-200">
+                  <ServiceCoverImage cover={cover} variant="card" />
                 </div>
 
                 <div className="relative flex flex-1 flex-col px-4 pb-5 pt-8">

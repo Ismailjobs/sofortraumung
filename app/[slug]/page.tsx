@@ -8,6 +8,8 @@ import {
   getServiceBySlug,
   getServicePath,
 } from "@/config/services";
+import { getServiceCoverImage } from "@/config/service-images";
+import ServiceCoverImage from "@/components/service/ServiceCoverImage";
 import { SITE } from "@/config/site";
 import { getServiceExtendedContent } from "@/config/service-extended";
 import { buildServicePageSchema } from "@/lib/schemas";
@@ -75,14 +77,26 @@ export default async function ServiceSlugPage({ params }: ServicePageProps) {
   const related = getRelatedServices(service.slug);
   const extended = getServiceExtendedContent(service.slug);
   const schema = buildServicePageSchema(service, extended.faq);
+  const coverImage = getServiceCoverImage(service.slug);
 
   return (
     <>
       <JsonLd id={`schema-service-${service.slug}`} data={schema} />
 
       <main className="overflow-x-hidden bg-navy">
-        <section className="border-b border-white/10 bg-navy-light py-8 sm:py-12 lg:py-16">
-          <div className="site-container">
+        <section className="relative overflow-hidden border-b border-white/10 bg-navy-light py-8 sm:py-12 lg:py-16">
+          {coverImage ? (
+            <>
+              <div className="pointer-events-none absolute inset-0 overflow-hidden">
+                <ServiceCoverImage cover={coverImage} variant="hero" />
+              </div>
+              <div
+                className="pointer-events-none absolute inset-0 bg-gradient-to-b from-navy/92 via-navy/88 to-navy-light"
+                aria-hidden="true"
+              />
+            </>
+          ) : null}
+          <div className="site-container relative z-10">
             <div className="mx-auto min-w-0 max-w-4xl">
             <ServiceBreadcrumb title={service.title} slug={service.slug} />
             <h1 className="mt-4 text-2xl font-extrabold uppercase leading-tight tracking-tight text-white break-words hyphens-auto sm:mt-5 sm:text-3xl sm:leading-snug md:text-4xl lg:text-5xl">
