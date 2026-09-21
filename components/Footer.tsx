@@ -23,8 +23,8 @@ export default function Footer() {
               <Image
                 src="/images/navbar-logo.webp"
                 alt="SofortRäumung Wien Logo"
-                width={1674}
-                height={411}
+                width={1009}
+                height={247}
                 className="h-11 w-auto object-contain sm:h-12"
                 sizes="(max-width: 640px) 220px, 260px"
               />

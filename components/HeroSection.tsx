@@ -1,13 +1,30 @@
 "use client";
 
-import { useCallback, useRef, useState, type PointerEvent } from "react";
+import {
+  useCallback,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Play, Star } from "lucide-react";
 import LocalImage from "@/components/LocalImage";
 import { TRUST_ITEMS } from "@/lib/data";
 
+const DRAG_THRESHOLD_PX = 10;
+
+type DragMode = "pending" | "horizontal" | "vertical";
+
+interface DragState {
+  pointerId: number;
+  startX: number;
+  startY: number;
+  mode: DragMode;
+}
+
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<DragState | null>(null);
   const [sliderPos, setSliderPos] = useState<number>(50);
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
@@ -19,20 +36,70 @@ export default function HeroSection() {
     setSliderPos(Math.min(95, Math.max(5, next)));
   }, []);
 
-  const handlePointerDown = (event: PointerEvent<HTMLDivElement>): void => {
-    setIsDragging(true);
-    event.currentTarget.setPointerCapture(event.pointerId);
-    updatePosition(event.clientX);
+  const resetDrag = useCallback(
+    (target: HTMLDivElement, pointerId: number, captured: boolean): void => {
+      if (captured) {
+        target.releasePointerCapture(pointerId);
+      }
+      dragRef.current = null;
+      setIsDragging(false);
+    },
+    [],
+  );
+
+  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>): void => {
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      mode: "pending",
+    };
   };
 
-  const handlePointerMove = (event: PointerEvent<HTMLDivElement>): void => {
-    if (!isDragging) return;
-    updatePosition(event.clientX);
+  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>): void => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+
+    const deltaX = event.clientX - drag.startX;
+    const deltaY = event.clientY - drag.startY;
+
+    if (drag.mode === "pending") {
+      if (
+        Math.abs(deltaX) < DRAG_THRESHOLD_PX &&
+        Math.abs(deltaY) < DRAG_THRESHOLD_PX
+      ) {
+        return;
+      }
+
+      if (Math.abs(deltaY) > Math.abs(deltaX)) {
+        dragRef.current = null;
+        return;
+      }
+
+      drag.mode = "horizontal";
+      setIsDragging(true);
+      event.currentTarget.setPointerCapture(event.pointerId);
+      event.preventDefault();
+      updatePosition(event.clientX);
+      return;
+    }
+
+    if (drag.mode === "horizontal") {
+      event.preventDefault();
+      updatePosition(event.clientX);
+    }
   };
 
-  const handlePointerUp = (event: PointerEvent<HTMLDivElement>): void => {
-    setIsDragging(false);
-    event.currentTarget.releasePointerCapture(event.pointerId);
+  const handlePointerUp = (event: ReactPointerEvent<HTMLDivElement>): void => {
+    const drag = dragRef.current;
+    const wasHorizontal = drag?.mode === "horizontal";
+    resetDrag(event.currentTarget, event.pointerId, wasHorizontal);
+  };
+
+  const handlePointerCancel = (event: ReactPointerEvent<HTMLDivElement>): void => {
+    const drag = dragRef.current;
+    const wasHorizontal = drag?.mode === "horizontal";
+    resetDrag(event.currentTarget, event.pointerId, wasHorizontal);
   };
 
   return (
@@ -68,11 +135,13 @@ export default function HeroSection() {
 
         <div
           ref={containerRef}
-          className="relative aspect-[4/3] w-full cursor-ew-resize overflow-hidden rounded-xl bg-slate-800 select-none touch-none lg:aspect-[5/4]"
+          className={`relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-slate-800 select-none touch-pan-y lg:aspect-[5/4] ${
+            isDragging ? "cursor-ew-resize touch-none" : "cursor-ew-resize"
+          }`}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
-          onPointerCancel={handlePointerUp}
+          onPointerCancel={handlePointerCancel}
           role="img"
           aria-label="Vorher-Nachher Vergleich: Chaos und saubere Wohnung"
         >
