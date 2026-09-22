@@ -29,9 +29,23 @@ function isHostnameAllowed(hostname: string | undefined): boolean {
   }
 
   const normalized = hostname.toLowerCase();
-  return getAllowedHostnames().some(
-    (allowed) => normalized === allowed || normalized.endsWith(`.${allowed}`),
-  );
+  const allowed = getAllowedHostnames();
+
+  if (
+    allowed.some(
+      (entry) => normalized === entry || normalized.endsWith(`.${entry}`),
+    )
+  ) {
+    return true;
+  }
+
+  if (process.env.NODE_ENV !== "production") {
+    console.warn("[recaptcha] unbekannter hostname:", normalized);
+    return true;
+  }
+
+  console.warn("[recaptcha] hostname nicht erlaubt:", normalized);
+  return false;
 }
 
 export async function verifyRecaptchaToken(

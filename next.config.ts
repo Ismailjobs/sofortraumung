@@ -17,11 +17,11 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com",
+      "script-src 'self' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://www.recaptcha.net",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https://www.google.com https://www.gstatic.com",
       "font-src 'self'",
-      "connect-src 'self' https://www.google.com",
+      "connect-src 'self' https://www.google.com https://www.gstatic.com https://www.recaptcha.net",
       "frame-src https://www.google.com https://www.recaptcha.net",
       "frame-ancestors 'none'",
       "base-uri 'self'",

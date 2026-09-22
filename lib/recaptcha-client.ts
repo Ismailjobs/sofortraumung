@@ -1,22 +1,56 @@
-const SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-
+let cachedSiteKey: string | null | undefined;
+let configFetchPromise: Promise<string | null> | null = null;
 let loadPromise: Promise<void> | null = null;
 
-export function isRecaptchaConfigured(): boolean {
-  return Boolean(SITE_KEY);
+async function fetchSiteKey(): Promise<string | null> {
+  if (cachedSiteKey !== undefined) {
+    return cachedSiteKey;
+  }
+
+  if (configFetchPromise) {
+    return configFetchPromise;
+  }
+
+  configFetchPromise = fetch("/api/public-config", { cache: "no-store" })
+    .then(async (response) => {
+      if (!response.ok) {
+        return null;
+      }
+      const data = (await response.json()) as {
+        recaptchaSiteKey?: string | null;
+      };
+      cachedSiteKey = data.recaptchaSiteKey?.trim() || null;
+      return cachedSiteKey;
+    })
+    .catch(() => {
+      cachedSiteKey = null;
+      return null;
+    })
+    .finally(() => {
+      configFetchPromise = null;
+    });
+
+  return configFetchPromise;
 }
 
-export function loadRecaptcha(): Promise<void> {
-  if (!SITE_KEY) {
-    return Promise.reject(new Error("reCAPTCHA site key fehlt"));
+export async function isRecaptchaConfigured(): Promise<boolean> {
+  const key = await fetchSiteKey();
+  return Boolean(key);
+}
+
+export async function loadRecaptcha(): Promise<void> {
+  const siteKey = await fetchSiteKey();
+
+  if (!siteKey) {
+    throw new Error("reCAPTCHA site key fehlt");
   }
 
   if (typeof window === "undefined") {
-    return Promise.reject(new Error("reCAPTCHA nur im Browser verfügbar"));
+    throw new Error("reCAPTCHA nur im Browser verfügbar");
   }
 
   if (window.grecaptcha) {
-    return Promise.resolve();
+    return;
   }
 
   if (loadPromise) {
@@ -27,6 +61,7 @@ export function loadRecaptcha(): Promise<void> {
     const existing = document.querySelector<HTMLScriptElement>(
       'script[src*="recaptcha/api.js"]',
     );
+
     if (existing) {
       existing.addEventListener("load", () => resolve(), { once: true });
       existing.addEventListener(
@@ -38,7 +73,7 @@ export function loadRecaptcha(): Promise<void> {
     }
 
     const script = document.createElement("script");
-    script.src = `https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`;
+    script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
     script.async = true;
     script.defer = true;
     script.onload = () => resolve();
@@ -51,7 +86,9 @@ export function loadRecaptcha(): Promise<void> {
 }
 
 export async function getRecaptchaToken(action: string): Promise<string> {
-  if (!SITE_KEY) {
+  const siteKey = await fetchSiteKey();
+
+  if (!siteKey) {
     throw new Error("reCAPTCHA site key fehlt");
   }
 
@@ -64,7 +101,7 @@ export async function getRecaptchaToken(action: string): Promise<string> {
   return new Promise((resolve, reject) => {
     window.grecaptcha!.ready(() => {
       window
-        .grecaptcha!.execute(SITE_KEY, { action })
+        .grecaptcha!.execute(siteKey, { action })
         .then(resolve)
         .catch(reject);
     });

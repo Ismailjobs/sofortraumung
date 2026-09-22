@@ -43,13 +43,29 @@ export default function ContactForm({
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [formError, setFormError] = useState<string>("");
   const [honeypot, setHoneypot] = useState<string>("");
+  const [recaptchaReady, setRecaptchaReady] = useState<boolean>(false);
 
   useEffect(() => {
-    if (isRecaptchaConfigured()) {
-      loadRecaptcha().catch(() => {
+    let cancelled = false;
+
+    void (async () => {
+      try {
+        const configured = await isRecaptchaConfigured();
+        if (!configured || cancelled) {
+          return;
+        }
+        await loadRecaptcha();
+        if (!cancelled) {
+          setRecaptchaReady(true);
+        }
+      } catch {
         /* Fehler wird beim Absenden behandelt */
-      });
-    }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const fieldId = (name: string): string => `${idPrefix}${name}`;
@@ -104,16 +120,17 @@ export default function ContactForm({
       return;
     }
 
-    if (!isRecaptchaConfigured()) {
-      setFormError(
-        "Das Kontaktformular ist derzeit nicht konfiguriert. Bitte rufen Sie uns an.",
-      );
-      return;
-    }
-
     setIsSubmitting(true);
 
     try {
+      const configured = await isRecaptchaConfigured();
+      if (!configured) {
+        setFormError(
+          "Das Kontaktformular ist derzeit nicht konfiguriert. Bitte rufen Sie uns an.",
+        );
+        return;
+      }
+
       const recaptchaToken = await getRecaptchaToken("contact");
 
       const response = await fetch("/api/contact", {
@@ -287,10 +304,14 @@ export default function ContactForm({
 
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={isSubmitting || !recaptchaReady}
         className="relative flex w-full items-center justify-center gap-2 rounded-md bg-lime px-4 py-3.5 text-sm font-extrabold uppercase tracking-tight text-navy transition hover:bg-lime-dark disabled:opacity-70"
       >
-        {isSubmitting ? "Wird gesendet…" : "Jetzt anfragen"}
+        {isSubmitting
+          ? "Wird gesendet…"
+          : recaptchaReady
+            ? "Jetzt anfragen"
+            : "Formular wird geladen…"}
         <Send className="h-4 w-4" aria-hidden="true" />
       </button>
 
