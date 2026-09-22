@@ -1,13 +1,20 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import Link from "next/link";
 import { Check, Send } from "lucide-react";
 import { SERVICE_OPTIONS } from "@/lib/data";
+import {
+  getRecaptchaToken,
+  isRecaptchaConfigured,
+  loadRecaptcha,
+} from "@/lib/recaptcha-client";
 import {
   INPUT_LIMITS,
   isHoneypotTriggered,
   isValidEmail,
   isValidPhone,
+  stripMessageInput,
   stripUnsafeInput,
 } from "@/lib/security";
 import type { ContactFormData, ServiceOptionValue } from "@/types";
@@ -36,6 +43,14 @@ export default function ContactForm({
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [formError, setFormError] = useState<string>("");
   const [honeypot, setHoneypot] = useState<string>("");
+
+  useEffect(() => {
+    if (isRecaptchaConfigured()) {
+      loadRecaptcha().catch(() => {
+        /* Fehler wird beim Absenden behandelt */
+      });
+    }
+  }, []);
 
   const fieldId = (name: string): string => `${idPrefix}${name}`;
 
@@ -66,10 +81,10 @@ export default function ContactForm({
       phone: stripUnsafeInput(formData.phone, INPUT_LIMITS.phone),
       email: stripUnsafeInput(formData.email, INPUT_LIMITS.email),
       service: formData.service,
-      message: stripUnsafeInput(formData.message, INPUT_LIMITS.message),
+      message: stripMessageInput(formData.message),
     };
 
-    if (!sanitized.name || !sanitized.phone || !sanitized.email) {
+    if (!sanitized.name || !sanitized.phone || !sanitized.email || !sanitized.message) {
       setFormError("Bitte füllen Sie alle Pflichtfelder aus.");
       return;
     }
@@ -84,24 +99,62 @@ export default function ContactForm({
       return;
     }
 
+    if (!sanitized.service) {
+      setFormError("Bitte wählen Sie eine Leistung aus.");
+      return;
+    }
+
+    if (!isRecaptchaConfigured()) {
+      setFormError(
+        "Das Kontaktformular ist derzeit nicht konfiguriert. Bitte rufen Sie uns an.",
+      );
+      return;
+    }
+
     setIsSubmitting(true);
 
-    await new Promise<void>((resolve) => {
-      setTimeout(resolve, 600);
-    });
+    try {
+      const recaptchaToken = await getRecaptchaToken("contact");
 
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData(INITIAL_FORM);
-    setHoneypot("");
-    onSuccess?.();
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...sanitized,
+          recaptchaToken,
+          website: honeypot,
+        }),
+      });
+
+      const result = (await response.json()) as { ok?: boolean; error?: string };
+
+      if (!response.ok) {
+        setFormError(
+          result.error ??
+            "Beim Senden ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+        );
+        return;
+      }
+
+      setIsSubmitted(true);
+      setFormData(INITIAL_FORM);
+      setHoneypot("");
+      onSuccess?.();
+    } catch {
+      setFormError(
+        "Beim Senden ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder rufen Sie uns an.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (isSubmitted) {
     return (
       <div className={`rounded-lg border border-lime/40 bg-lime/10 p-5 text-center ${className}`}>
         <p className="text-sm font-bold text-lime">
-          Danke! Wir melden uns in Kürze bei Ihnen.
+          Vielen Dank! Ihre Anfrage wurde erhalten — wir melden uns in Kürze bei
+          Ihnen. Eine Bestätigung wurde an Ihre E-Mail-Adresse gesendet.
         </p>
         <button
           type="button"
@@ -223,8 +276,9 @@ export default function ContactForm({
           id={fieldId("message")}
           name="message"
           rows={4}
+          required
           maxLength={INPUT_LIMITS.message}
-          placeholder="Ihre Nachricht (optional)"
+          placeholder="Ihre Nachricht*"
           value={formData.message}
           onChange={(e) => handleChange("message", e.target.value)}
           className="w-full resize-y rounded-md border-0 bg-white px-3 py-2.5 text-sm text-navy placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-lime"
@@ -243,6 +297,32 @@ export default function ContactForm({
       <p className="flex items-center justify-center gap-1.5 text-xs text-white/60">
         <Check className="h-3.5 w-3.5 text-lime" aria-hidden="true" />
         100% kostenlos & unverbindlich
+      </p>
+
+      <p className="text-center text-[10px] leading-relaxed text-white/45">
+        Diese Website ist durch reCAPTCHA geschützt. Es gelten die{" "}
+        <a
+          href="https://policies.google.com/privacy"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-white/70"
+        >
+          Datenschutzbestimmungen
+        </a>{" "}
+        und{" "}
+        <a
+          href="https://policies.google.com/terms"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-white/70"
+        >
+          Nutzungsbedingungen
+        </a>{" "}
+        von Google. Details in unserer{" "}
+        <Link href="/datenschutz" className="underline hover:text-white/70">
+          Datenschutzerklärung
+        </Link>
+        .
       </p>
     </form>
   );

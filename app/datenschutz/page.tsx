@@ -155,21 +155,61 @@ export default function DatenschutzPage() {
 
             <section>
               <h2 className="text-lg font-extrabold uppercase tracking-tight text-white">
-                7. Cookies und Analyse
+                7. Google reCAPTCHA v3
               </h2>
               <p className="mt-3">
-                Soweit technisch notwendige Cookies eingesetzt werden, erfolgt
-                dies auf Grundlage berechtigter Interessen (Art. 6 Abs. 1 lit. f
-                DSGVO). Für nicht notwendige Cookies bzw. Analyse-Tools holen
-                wir – sofern eingesetzt – zuvor Ihre Einwilligung ein (Art. 6
-                Abs. 1 lit. a DSGVO). Details zu eingesetzten Tools werden bei
-                Implementierung hier ergänzt.
+                Zum Schutz unseres Kontaktformulars vor Missbrauch und Spam
+                setzen wir Google reCAPTCHA v3 ein (Anbieter: Google Ireland
+                Limited / Google LLC). reCAPTCHA analysiert im Hintergrund das
+                Nutzerverhalten und liefert einen Score zur Unterscheidung
+                zwischen Mensch und Bot. Dabei können u. a. IP-Adresse,
+                Browserinformationen, Gerätedaten und Interaktionsdaten an
+                Google übermittelt werden.
+              </p>
+              <p className="mt-3">
+                Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (berechtigtes
+                Interesse an der Sicherheit unserer Website und an der Abwehr
+                von Missbrauch). Weitere Informationen finden Sie in den{" "}
+                <a
+                  href="https://policies.google.com/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-lime hover:underline"
+                >
+                  Datenschutzbestimmungen von Google
+                </a>{" "}
+                sowie den{" "}
+                <a
+                  href="https://policies.google.com/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-lime hover:underline"
+                >
+                  Nutzungsbedingungen von Google
+                </a>
+                .
               </p>
             </section>
 
             <section>
               <h2 className="text-lg font-extrabold uppercase tracking-tight text-white">
-                8. Ihre Rechte
+                8. E-Mail-Versand (Brevo)
+              </h2>
+              <p className="mt-3">
+                Für den Versand von Bestätigungs- und Anfrage-E-Mails nutzen wir
+                den Dienst Brevo (Sendinblue SAS, Frankreich). Dabei werden die
+                von Ihnen im Kontaktformular eingegebenen Daten (Name,
+                E-Mail-Adresse, Telefonnummer, gewünschte Leistung, Nachricht)
+                zum Versand an uns bzw. zur Bestätigung an Sie verarbeitet.
+                Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO
+                (Vertragsanbahnung) sowie Art. 6 Abs. 1 lit. f DSGVO
+                (berechtigtes Interesse an zuverlässigem Formularbetrieb).
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-lg font-extrabold uppercase tracking-tight text-white">
+                9. Ihre Rechte
               </h2>
               <p className="mt-3">
                 Sie haben gegenüber uns insbesondere folgende Rechte:
@@ -193,7 +233,7 @@ export default function DatenschutzPage() {
 
             <section>
               <h2 className="text-lg font-extrabold uppercase tracking-tight text-white">
-                9. Datensicherheit
+                10. Datensicherheit
               </h2>
               <p className="mt-3">
                 Wir treffen angemessene technische und organisatorische
@@ -206,7 +246,7 @@ export default function DatenschutzPage() {
 
             <section>
               <h2 className="text-lg font-extrabold uppercase tracking-tight text-white">
-                10. Änderung dieser Erklärung
+                11. Änderung dieser Erklärung
               </h2>
               <p className="mt-3">
                 Wir behalten uns vor, diese Datenschutzerklärung anzupassen,
