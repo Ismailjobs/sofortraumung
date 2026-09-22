@@ -87,7 +87,14 @@ export async function sendContactEmails(
   const adminEmail = buildAdminNotificationEmail(payload);
   const confirmationEmail = buildConfirmationEmail(payload);
 
-  // Detailed inquiry → internal office only
+  // Anfragen nur ans interne Postfach — nie an die öffentliche Absender-Adresse
+  if (internalOfficeEmail.toLowerCase() === customerFacingEmail.toLowerCase()) {
+    throw new Error(
+      "CONTACT_TO_EMAIL darf nicht gleich BREVO_SENDER_EMAIL sein",
+    );
+  }
+
+  // Detailed inquiry → internal office only (CONTACT_TO_EMAIL)
   await sendBrevoEmail({
     sender,
     to: [{ email: internalOfficeEmail, name: SITE.name }],
