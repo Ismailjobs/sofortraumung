@@ -44,7 +44,6 @@ export default function LocalImage({
       alt={alt}
       fill={fill}
       className={className}
-      unoptimized
       onError={() => setHasError(true)}
       {...rest}
     />

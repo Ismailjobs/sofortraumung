@@ -12,6 +12,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: `${SITE.domain}/preise`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.92,
+    },
+    {
       url: `${SITE.domain}/ratgeber`,
       lastModified: new Date(),
       changeFrequency: "weekly",

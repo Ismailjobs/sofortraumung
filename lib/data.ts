@@ -36,6 +36,7 @@ import type {
 
 export const NAV_LINKS: NavLink[] = [
   { label: "Leistungen", href: "/leistungen", hasDropdown: true },
+  { label: "Preise", href: "/preise" },
   { label: "So funktioniert's", href: "/#prozess" },
   { label: "Referenzen", href: "/referenzen" },
   { label: "Ratgeber", href: "/ratgeber" },
@@ -213,6 +214,7 @@ export const FOOTER_SERVICES: FooterLink[] = [
 ];
 
 export const FOOTER_INFO: FooterLink[] = [
+  { label: "Preise & Rechner", href: "/preise" },
   { label: "So funktioniert's", href: "/#prozess" },
   { label: "Referenzen", href: "/referenzen" },
   { label: "Ratgeber", href: "/ratgeber" },

@@ -1,9 +1,16 @@
-"use client";
-
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import { Check } from "lucide-react";
-import LocalImage from "@/components/LocalImage";
-import ContactForm from "@/components/ContactForm";
 import { BENEFITS, REGION_FEATURES } from "@/lib/data";
+
+const ContactForm = dynamic(() => import("@/components/ContactForm"), {
+  loading: () => (
+    <div
+      className="mt-5 h-[28rem] animate-pulse rounded-lg bg-white/5"
+      aria-hidden="true"
+    />
+  ),
+});
 
 export default function ContactSection() {
   return (
@@ -36,13 +43,13 @@ export default function ContactSection() {
         </div>
 
         <div className="relative order-3 min-h-[320px] overflow-hidden bg-slate-800 sm:min-h-[400px] lg:order-none lg:-mx-2 lg:min-h-full">
-          <LocalImage
+          <Image
             src="/images/wien-map.webp"
             alt="Einsatzgebiet Wien, Niederösterreich und Umgebung"
             fill
             className="object-cover object-center"
             sizes="(max-width: 1024px) 100vw, 42vw"
-            fallbackClassName="bg-slate-800"
+            loading="lazy"
           />
           <div className="absolute inset-0 bg-gradient-to-br from-navy/80 via-navy/40 to-transparent" />
           <div className="absolute left-0 top-0 z-10 max-w-[95%] p-4 sm:p-5 lg:p-6">

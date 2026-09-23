@@ -47,24 +47,19 @@ body {
 }
 
 /* Process section animations */
-.process-animate-hidden {
-  opacity: 0;
-  transform: translateY(1.25rem);
+.process-section .process-animate-in {
+  animation: process-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.process-section--visible .process-animate-in {
-  animation: process-fade-up 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.process-section--visible .process-connector-arrow {
+.process-section .process-connector-arrow {
   animation: process-arrow-bounce 2s ease-in-out infinite;
 }
 
-.process-section--visible .process-wow-badge {
+.process-section .process-wow-badge {
   animation: process-wow-float 4s ease-in-out infinite;
 }
 
-.process-section--visible .process-arrow {
+.process-section .process-arrow {
   animation: process-arrow-pulse 2.5s ease-in-out infinite;
 }
 
@@ -113,20 +108,98 @@ body {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .process-animate-hidden {
-    opacity: 1;
-    transform: none;
-  }
+/* Kostenrechner */
+.kostenrechner-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+}
 
-  .process-section--visible .process-animate-in,
-  .process-section--visible .process-connector-arrow,
-  .process-section--visible .process-wow-badge,
-  .process-section--visible .process-arrow {
+.kostenrechner-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 1.25rem;
+  width: 1.25rem;
+  border-radius: 9999px;
+  background: #c8f026;
+  cursor: pointer;
+  box-shadow: 0 0 0 3px rgba(200, 240, 38, 0.25);
+}
+
+.kostenrechner-range::-moz-range-thumb {
+  height: 1.25rem;
+  width: 1.25rem;
+  border: none;
+  border-radius: 9999px;
+  background: #c8f026;
+  cursor: pointer;
+}
+
+.kostenrechner-result-hidden {
+  min-height: 280px;
+}
+
+.kostenrechner-fade-in,
+.kostenrechner-step-in {
+  animation: kostenrechner-fade-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.kostenrechner-step-in {
+  animation-duration: 0.35s;
+}
+
+.kostenrechner-pulse {
+  animation: kostenrechner-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes kostenrechner-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes kostenrechner-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kostenrechner-fade-in,
+  .kostenrechner-step-in,
+  .kostenrechner-pulse {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-section .process-animate-in,
+  .process-section .process-connector-arrow,
+  .process-section .process-wow-badge,
+  .process-section .process-arrow {
     animation: none;
   }
 
   .process-card {
     transition: none;
   }
+}
+
+/* reCAPTCHA v3 badge — hidden; disclosure text in ContactForm (Google ToS) */
+.grecaptcha-badge {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }

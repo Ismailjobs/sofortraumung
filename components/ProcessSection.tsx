@@ -1,46 +1,17 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { PROCESS_STEPS } from "@/lib/data";
 
 export default function ProcessSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const node = sectionRef.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section
-      ref={sectionRef}
-      id="prozess"
-      className={`process-section bg-navy py-16 lg:py-20 ${isVisible ? "process-section--visible" : ""}`}
-    >
+    <section id="prozess" className="process-section bg-navy py-16 lg:py-20">
       <div className="site-container">
         <h2
-          className={`process-heading text-center text-2xl font-extrabold uppercase tracking-tight text-lime sm:text-3xl ${isVisible ? "process-animate-in" : "process-animate-hidden"}`}
+          className="process-heading process-animate-in text-center text-2xl font-extrabold uppercase tracking-tight text-lime sm:text-3xl"
           style={{ animationDelay: "0ms" }}
         >
           Unser 4-Schritte Wow-Prozess
         </h2>
 
-        {/* Mobile & tablet: vertical timeline */}
         <div className="relative mt-10 space-y-0 lg:hidden">
           {PROCESS_STEPS.map((step, index) => {
             const Icon = step.icon;
@@ -48,7 +19,7 @@ export default function ProcessSection() {
             return (
               <div
                 key={step.id}
-                className={`process-step-mobile relative flex gap-4 sm:gap-5 ${isVisible ? "process-animate-in" : "process-animate-hidden"}`}
+                className="process-step-mobile process-animate-in relative flex gap-4 sm:gap-5"
                 style={{ animationDelay: `${120 + index * 120}ms` }}
               >
                 <div className="flex w-10 shrink-0 flex-col items-center sm:w-12">
@@ -82,7 +53,7 @@ export default function ProcessSection() {
           })}
 
           <div
-            className={`flex justify-center pt-2 ${isVisible ? "process-animate-in" : "process-animate-hidden"}`}
+            className="process-animate-in flex justify-center pt-2"
             style={{ animationDelay: "680ms" }}
           >
             <div className="process-wow-badge flex h-40 w-40 rotate-12 flex-col items-center justify-center rounded-full border-4 border-double border-lime bg-navy-light p-4 text-center shadow-xl sm:h-44 sm:w-44 sm:p-5">
@@ -96,14 +67,13 @@ export default function ProcessSection() {
           </div>
         </div>
 
-        {/* Desktop: horizontal flow */}
         <div className="relative mt-12 hidden items-center gap-3 lg:flex lg:pl-10">
           {PROCESS_STEPS.map((step, index) => {
             const Icon = step.icon;
             return (
               <div
                 key={step.id}
-                className={`process-step-desktop relative flex flex-1 items-stretch ${isVisible ? "process-animate-in" : "process-animate-hidden"}`}
+                className="process-step-desktop process-animate-in relative flex flex-1 items-stretch"
                 style={{ animationDelay: `${150 + index * 100}ms` }}
               >
                 {index === 0 ? (
@@ -150,7 +120,7 @@ export default function ProcessSection() {
           })}
 
           <div
-            className={`ml-4 shrink-0 ${isVisible ? "process-animate-in" : "process-animate-hidden"}`}
+            className="process-animate-in ml-4 shrink-0"
             style={{ animationDelay: "550ms" }}
           >
             <div className="process-wow-badge flex h-36 w-36 rotate-12 flex-col items-center justify-center rounded-full border-4 border-double border-lime bg-navy-light p-4 text-center shadow-xl">

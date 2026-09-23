@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Check, Send } from "lucide-react";
 import { SERVICE_OPTIONS } from "@/lib/data";
@@ -43,28 +43,45 @@ export default function ContactForm({
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [formError, setFormError] = useState<string>("");
   const [honeypot, setHoneypot] = useState<string>("");
-  const [recaptchaReady, setRecaptchaReady] = useState<boolean>(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
+    const node = formRef.current;
+    if (!node) return;
+
     let cancelled = false;
 
-    void (async () => {
+    const prepareRecaptcha = async (): Promise<void> => {
       try {
         const configured = await isRecaptchaConfigured();
-        if (!configured || cancelled) {
-          return;
-        }
+        if (!configured || cancelled) return;
         await loadRecaptcha();
-        if (!cancelled) {
-          setRecaptchaReady(true);
-        }
       } catch {
         /* Fehler wird beim Absenden behandelt */
       }
-    })();
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          void prepareRecaptcha();
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "240px 0px" },
+    );
+
+    observer.observe(node);
+
+    const onFocus = (): void => {
+      void prepareRecaptcha();
+    };
+    node.addEventListener("focusin", onFocus, { once: true });
 
     return () => {
       cancelled = true;
+      observer.disconnect();
+      node.removeEventListener("focusin", onFocus);
     };
   }, []);
 
@@ -186,10 +203,11 @@ export default function ContactForm({
 
   return (
     <form
+      ref={formRef}
       className={`space-y-3 ${className}`}
       onSubmit={handleSubmit}
       noValidate
-      id={idPrefix ? `${idPrefix}form` : "kontakt-form"}
+      id={idPrefix ? `${idPrefix}contact-form` : undefined}
     >
       <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
         <label htmlFor={fieldId("website")}>Website</label>
@@ -304,14 +322,10 @@ export default function ContactForm({
 
       <button
         type="submit"
-        disabled={isSubmitting || !recaptchaReady}
+        disabled={isSubmitting}
         className="relative flex w-full items-center justify-center gap-2 rounded-md bg-lime px-4 py-3.5 text-sm font-extrabold uppercase tracking-tight text-navy transition hover:bg-lime-dark disabled:opacity-70"
       >
-        {isSubmitting
-          ? "Wird gesendet…"
-          : recaptchaReady
-            ? "Jetzt anfragen"
-            : "Formular wird geladen…"}
+        {isSubmitting ? "Wird gesendet…" : "Jetzt anfragen"}
         <Send className="h-4 w-4" aria-hidden="true" />
       </button>
 

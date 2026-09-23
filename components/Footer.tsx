@@ -14,7 +14,7 @@ export default function Footer() {
       <div className="site-container py-14">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12">
           {/* Brand */}
-          <div className="flex flex-col items-center text-center sm:items-start sm:text-left lg:col-span-3">
+          <div className="ml-[6%] mr-auto w-[88%] max-w-xs text-left sm:ml-0 sm:mr-0 sm:w-auto sm:max-w-none lg:col-span-3">
             <Link
               href="/"
               className="inline-flex items-center"
@@ -23,17 +23,18 @@ export default function Footer() {
               <Image
                 src="/images/navbar-logo.webp"
                 alt="SofortRäumung Wien Logo"
-                width={1009}
-                height={247}
+                width={260}
+                height={64}
                 className="h-11 w-auto object-contain sm:h-12"
                 sizes="(max-width: 640px) 220px, 260px"
+                loading="lazy"
               />
             </Link>
             <p className="mt-4 text-sm leading-relaxed text-white/65">
               Ihr Partner für schnelle, diskrete und professionelle Räumungen in
               Wien, Niederösterreich & Umgebung.
             </p>
-            <div className="mt-5 flex items-center justify-center gap-2.5 sm:justify-start">
+            <div className="mt-5 flex items-center justify-start gap-2.5">
               {SOCIAL_LINKS.map((social) => {
                 const Icon = social.icon;
                 return (
@@ -51,11 +52,11 @@ export default function Footer() {
           </div>
 
           {/* Leistungen */}
-          <div className="text-center sm:text-left lg:col-span-2">
+          <div className="ml-[6%] mr-auto w-[88%] max-w-xs text-left sm:ml-0 sm:mr-0 sm:w-auto sm:max-w-none lg:col-span-2">
             <h3 className="text-sm font-extrabold uppercase tracking-tight text-white">
               Leistungen
             </h3>
-            <ul className="mt-4 space-y-2.5 sm:text-left">
+            <ul className="mt-4 space-y-2.5">
               {FOOTER_SERVICES.map((link) => (
                 <li key={link.label}>
                   <Link
@@ -70,11 +71,11 @@ export default function Footer() {
           </div>
 
           {/* Informationen */}
-          <div className="text-center sm:text-left lg:col-span-2">
+          <div className="ml-[6%] mr-auto w-[88%] max-w-xs text-left sm:ml-0 sm:mr-0 sm:w-auto sm:max-w-none lg:col-span-2">
             <h3 className="text-sm font-extrabold uppercase tracking-tight text-white">
               Informationen
             </h3>
-            <ul className="mt-4 space-y-2.5 sm:text-left">
+            <ul className="mt-4 space-y-2.5">
               {FOOTER_INFO.map((link) => (
                 <li key={link.label}>
                   <Link
@@ -89,7 +90,7 @@ export default function Footer() {
           </div>
 
           {/* Kontakt */}
-          <div className="flex flex-col items-center text-center sm:items-start sm:text-left lg:col-span-3">
+          <div className="ml-[6%] mr-auto w-[88%] max-w-xs text-left sm:ml-0 sm:mr-0 sm:w-auto sm:max-w-none lg:col-span-3">
             <h3 className="text-sm font-extrabold uppercase tracking-tight text-white">
               Kontakt
             </h3>
@@ -113,7 +114,7 @@ export default function Footer() {
 
           {/* Satisfaction badge */}
           <div className="col-span-1 flex justify-center sm:col-span-2 sm:justify-start lg:col-span-2 lg:justify-end">
-            <div className="flex w-full max-w-[180px] flex-col items-center rounded-xl border border-lime/40 bg-navy p-4 text-center">
+            <div className="flex w-full max-w-[180px] flex-col items-center rounded-xl border border-lime/40 bg-navy p-4 text-center lg:items-center lg:text-center">
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-lime/20 text-lime">
                 <Star className="h-5 w-5 fill-current" aria-hidden="true" />
               </span>
@@ -131,7 +132,8 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-white/10">
-        <div className="site-container flex flex-col items-center justify-between gap-2 py-4 text-xs text-white/50 sm:flex-row">
+        <div className="site-container flex flex-col items-center justify-between gap-2 py-4 text-xs text-white/50 sm:flex-row sm:items-center">
+          <div className="ml-[6%] mr-auto flex w-[88%] max-w-xs flex-col gap-2 text-left sm:ml-0 sm:mr-0 sm:w-auto sm:max-w-none">
           <p>© {new Date().getFullYear()} sofortraumung.at – Alle Rechte vorbehalten.</p>
           <div className="flex items-center gap-4">
             <Link href="/impressum" className="hover:text-lime">
@@ -140,6 +142,7 @@ export default function Footer() {
             <Link href="/datenschutz" className="hover:text-lime">
               Datenschutz
             </Link>
+          </div>
           </div>
         </div>
       </div>

@@ -25,8 +25,8 @@ export default function ServiceCoverImage({
       src={cover.src}
       alt={variant === "hero" ? "" : cover.alt}
       fill
-      unoptimized
       priority={priority}
+      loading={priority ? undefined : "lazy"}
       aria-hidden={variant === "hero" ? true : undefined}
       sizes={
         variant === "card"
