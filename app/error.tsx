@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 interface ErrorPageProps {
   error: Error & { digest?: string };
   reset: () => void;
@@ -25,9 +27,9 @@ export default function ErrorPage({ reset }: ErrorPageProps) {
         </button>
         <p className="mt-4 text-xs text-white/45">
           Oder{" "}
-          <a href="/" className="text-lime underline hover:text-lime-dark">
+          <Link href="/" className="text-lime underline hover:text-lime-dark">
             zur Startseite
-          </a>
+          </Link>
         </p>
       </div>
     </main>
