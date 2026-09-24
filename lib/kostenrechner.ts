@@ -82,11 +82,19 @@ export function computeEstimate(
 }
 
 export function formatEuro(value: number): string {
-  return new Intl.NumberFormat("de-AT", {
-    style: "currency",
-    currency: "EUR",
-    maximumFractionDigits: 0,
-  }).format(value);
+  if (!Number.isFinite(value)) {
+    return "—";
+  }
+
+  try {
+    return new Intl.NumberFormat("de-AT", {
+      style: "currency",
+      currency: "EUR",
+      maximumFractionDigits: 0,
+    }).format(value);
+  } catch {
+    return `${Math.round(value).toLocaleString("de-DE")} €`;
+  }
 }
 
 export function getObjektartLabel(id: Objektart): string {

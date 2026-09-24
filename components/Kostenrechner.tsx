@@ -48,9 +48,13 @@ export default function Kostenrechner({ embedded = false }: KostenrechnerProps) 
   const [phase, setPhase] = useState<CalculatorPhase>("idle");
   const [result, setResult] = useState<PriceRange | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
+  const isMountedRef = useRef(true);
 
   useEffect(() => {
+    isMountedRef.current = true;
     return () => {
+      isMountedRef.current = false;
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
@@ -66,6 +70,10 @@ export default function Kostenrechner({ embedded = false }: KostenrechnerProps) 
     setResult(null);
 
     timeoutRef.current = setTimeout(() => {
+      if (!isMountedRef.current) {
+        return;
+      }
+
       const range = computeEstimate(
         objektart,
         flaeche,
@@ -76,6 +84,13 @@ export default function Kostenrechner({ embedded = false }: KostenrechnerProps) 
       setResult(range);
       setPhase("result");
       timeoutRef.current = null;
+
+      requestAnimationFrame(() => {
+        resultRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        });
+      });
     }, 700);
   }, [objektart, flaeche, stockwerk, aufzug, zustand]);
 
@@ -287,91 +302,107 @@ export default function Kostenrechner({ embedded = false }: KostenrechnerProps) 
               </button>
             </div>
 
-            <div className="mt-8 flex flex-col justify-center lg:mt-0">
+            <div ref={resultRef} className="mt-8 flex flex-col justify-center lg:mt-0">
               <div className="kostenrechner-result-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8">
-                <div
-                  className={`flex min-h-[280px] flex-col items-center justify-center text-center ${
-                    phase === "idle" ? "block" : "hidden"
-                  }`}
-                >
-                  <p className="text-4xl font-extrabold text-white/15">€</p>
-                  <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/50">
-                    Parameter wählen und auf{" "}
-                    <strong className="text-white/70">Berechnen</strong> klicken
-                    — Ihr unverbindlicher Richtwert erscheint hier.
-                  </p>
-                </div>
-
-                <div
-                  className={`flex min-h-[280px] flex-col items-center justify-center text-center ${
-                    phase === "calculating" ? "block" : "hidden"
-                  }`}
-                  aria-busy="true"
-                >
-                  <div className="kostenrechner-pulse flex flex-col items-center gap-4">
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-lime/40 bg-lime/10">
-                      <Loader2
-                        className="h-8 w-8 animate-spin text-lime"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <p className="text-sm font-semibold text-white/70">
-                      Richtwert wird ermittelt…
+                <div className="relative min-h-[280px]">
+                  <div
+                    className={`absolute inset-0 flex flex-col items-center justify-center text-center transition-opacity duration-200 ${
+                      phase === "idle"
+                        ? "pointer-events-auto opacity-100"
+                        : "pointer-events-none opacity-0"
+                    }`}
+                    aria-hidden={phase !== "idle"}
+                  >
+                    <p className="text-4xl font-extrabold text-white/15">€</p>
+                    <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/50">
+                      Parameter wählen und auf{" "}
+                      <strong className="text-white/70">Berechnen</strong>{" "}
+                      klicken — Ihr unverbindlicher Richtwert erscheint hier.
                     </p>
                   </div>
-                </div>
 
-                <div
-                  className={`${phase === "result" && result ? "kostenrechner-fade-in block" : "hidden"}`}
-                  aria-live="polite"
-                >
-                  {result ? (
-                    <>
-                      <p className="text-xs font-bold uppercase tracking-widest text-lime">
-                        Ihr Richtwert
-                      </p>
-                      <p className="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                        {formatEuro(result.min)}{" "}
-                        <span className="text-white/40">–</span>{" "}
-                        {formatEuro(result.max)}
-                      </p>
-                      <p className="mt-2 text-sm text-white/55">
-                        Geschätzte Entrümpelung in Wien (netto, inkl. Abtransport
-                        &amp; Entsorgung)
-                      </p>
-
-                      <p className="mt-6 rounded-2xl border border-white/10 bg-navy/60 p-4 text-xs leading-relaxed text-white/65 sm:text-sm">
-                        <strong className="text-white/90">Hinweis:</strong> Dies
-                        ist ein unverbindlicher Richtwert. Jedes Objekt ist
-                        individuell (z.&nbsp;B. Wertanrechnung von verwertbaren
-                        Gegenständen, Parkmöglichkeiten). Für einen garantierten
-                        Festpreis kontaktieren Sie uns für eine kostenlose
-                        15-Minuten-Besichtigung vor Ort.
-                      </p>
-
-                      <div className="mt-6 flex flex-col gap-3">
-                        <a
-                          href={`tel:${SITE.telephone}`}
-                          className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-lime px-5 py-4 text-sm font-extrabold uppercase tracking-tight text-navy transition hover:bg-lime-dark"
-                        >
-                          <Phone className="h-4 w-4 shrink-0" aria-hidden="true" />
-                          Jetzt Festpreis anfragen
-                        </a>
-                        <a
-                          href={SITE.whatsappUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/25 bg-white/5 px-5 py-4 text-sm font-bold uppercase tracking-tight text-white transition hover:border-lime/50 hover:text-lime"
-                        >
-                          <MessageCircle
-                            className="h-4 w-4 shrink-0"
-                            aria-hidden="true"
-                          />
-                          Per WhatsApp schätzen lassen
-                        </a>
+                  <div
+                    className={`absolute inset-0 flex flex-col items-center justify-center text-center transition-opacity duration-200 ${
+                      phase === "calculating"
+                        ? "pointer-events-auto opacity-100"
+                        : "pointer-events-none opacity-0"
+                    }`}
+                    aria-hidden={phase !== "calculating"}
+                    aria-busy={phase === "calculating"}
+                  >
+                    <div className="kostenrechner-pulse flex flex-col items-center gap-4">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-lime/40 bg-lime/10">
+                        <Loader2
+                          className="h-8 w-8 animate-spin text-lime"
+                          aria-hidden="true"
+                        />
                       </div>
-                    </>
-                  ) : null}
+                      <p className="text-sm font-semibold text-white/70">
+                        Richtwert wird ermittelt…
+                      </p>
+                    </div>
+                  </div>
+
+                  <div
+                    className={`transition-opacity duration-200 ${
+                      phase === "result" && result
+                        ? "kostenrechner-fade-in pointer-events-auto opacity-100"
+                        : "pointer-events-none opacity-0"
+                    }`}
+                    aria-hidden={phase !== "result" || !result}
+                    aria-live="polite"
+                  >
+                    {result ? (
+                      <>
+                        <p className="text-xs font-bold uppercase tracking-widest text-lime">
+                          Ihr Richtwert
+                        </p>
+                        <p className="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                          {formatEuro(result.min)}{" "}
+                          <span className="text-white/40">–</span>{" "}
+                          {formatEuro(result.max)}
+                        </p>
+                        <p className="mt-2 text-sm text-white/55">
+                          Geschätzte Entrümpelung in Wien (netto, inkl.
+                          Abtransport &amp; Entsorgung)
+                        </p>
+
+                        <p className="mt-6 rounded-2xl border border-white/10 bg-navy/60 p-4 text-xs leading-relaxed text-white/65 sm:text-sm">
+                          <strong className="text-white/90">Hinweis:</strong>{" "}
+                          Dies ist ein unverbindlicher Richtwert. Jedes Objekt
+                          ist individuell (z.&nbsp;B. Wertanrechnung von
+                          verwertbaren Gegenständen, Parkmöglichkeiten). Für
+                          einen garantierten Festpreis kontaktieren Sie uns für
+                          eine kostenlose 15-Minuten-Besichtigung vor Ort.
+                        </p>
+
+                        <div className="mt-6 flex flex-col gap-3">
+                          <a
+                            href={`tel:${SITE.telephone}`}
+                            className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-lime px-5 py-4 text-sm font-extrabold uppercase tracking-tight text-navy transition hover:bg-lime-dark"
+                          >
+                            <Phone
+                              className="h-4 w-4 shrink-0"
+                              aria-hidden="true"
+                            />
+                            Jetzt Festpreis anfragen
+                          </a>
+                          <a
+                            href={SITE.whatsappUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-white/25 bg-white/5 px-5 py-4 text-sm font-bold uppercase tracking-tight text-white transition hover:border-lime/50 hover:text-lime"
+                          >
+                            <MessageCircle
+                              className="h-4 w-4 shrink-0"
+                              aria-hidden="true"
+                            />
+                            Per WhatsApp schätzen lassen
+                          </a>
+                        </div>
+                      </>
+                    ) : null}
+                  </div>
                 </div>
               </div>
             </div>
