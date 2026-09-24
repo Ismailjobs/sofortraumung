@@ -1,16 +1,7 @@
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import { Check } from "lucide-react";
+import ContactForm from "@/components/ContactForm";
 import { BENEFITS, REGION_FEATURES } from "@/lib/data";
-
-const ContactForm = dynamic(() => import("@/components/ContactForm"), {
-  loading: () => (
-    <div
-      className="mt-5 h-[28rem] animate-pulse rounded-lg bg-white/5"
-      aria-hidden="true"
-    />
-  ),
-});
 
 export default function ContactSection() {
   return (

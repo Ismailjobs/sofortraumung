@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import HeroSection from "@/components/HeroSection";
 import PreiseTeaser from "@/components/PreiseTeaser";
 import ProcessSection from "@/components/ProcessSection";
 import ServicesSection from "@/components/ServicesSection";
 import RatgeberPreviewSection from "@/components/RatgeberPreviewSection";
+import ContactSection from "@/components/ContactSection";
 import FaqSection from "@/components/FaqSection";
-
-const ContactSection = dynamic(() => import("@/components/ContactSection"));
 import JsonLd from "@/components/JsonLd";
 import { FAQ_ITEMS } from "@/lib/data";
 import { SITE } from "@/config/site";

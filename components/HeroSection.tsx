@@ -1,17 +1,8 @@
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight, Play, Star } from "lucide-react";
+import HeroBeforeAfter from "@/components/HeroBeforeAfter";
 import { TRUST_ITEMS } from "@/lib/data";
-
-const HeroBeforeAfter = dynamic(() => import("@/components/HeroBeforeAfter"), {
-  loading: () => (
-    <div
-      className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-slate-800 lg:aspect-[5/4]"
-      aria-hidden="true"
-    />
-  ),
-});
 
 export default function HeroSection() {
   return (
